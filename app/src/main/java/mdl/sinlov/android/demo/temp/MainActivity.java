@@ -11,12 +11,7 @@ public class MainActivity extends MDLTestActivity {
     }
 
     @Override
-    protected void bindView(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void bindListener() {
+    protected void processLogic(Bundle savedInstanceState) {
 
     }
 }
