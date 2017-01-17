@@ -64,7 +64,7 @@ public final class UXUtils {
                     }
                 } else {
                     if (isShowDefaultUXMessage) {
-                        showSingleToast(ctx.getApplicationContext(), "请稍等片刻尝试");
+                        showSingleToast(ctx.getApplicationContext(), "执行中，请稍后再试!");
                     }
                 }
             }
@@ -77,23 +77,24 @@ public final class UXUtils {
         }
     }
 
-    public static boolean isFastRequestShowProgressDialog(Context ctx) {
-        return isFastRequestShowProgressDialog(ctx, false);
+    public static boolean fastRequestShowProgressDialog(Context ctx) {
+        return fastRequestShowProgressDialog(ctx, false);
     }
 
-    public static boolean isFastRequestShowProgressDialog(Context ctx, String msg) {
-        return isFastRequestShowProgressDialog(ctx, msg, false);
+    public static boolean fastRequestShowProgressDialog(Context ctx, String msg) {
+        return fastRequestShowProgressDialog(ctx, msg, false);
     }
 
-    public static boolean isFastRequestShowProgressDialog(Context ctx, boolean isLongCheck) {
-        return isFastRequestShowProgressDialog(ctx, null, isLongCheck);
+    public static boolean fastRequestShowProgressDialog(Context ctx, boolean isLongCheck) {
+        return fastRequestShowProgressDialog(ctx, null, isLongCheck);
     }
 
-    public static boolean isFastRequestShowProgressDialog(Context ctx, String meg, boolean isLongCheck) {
+    public static boolean fastRequestShowProgressDialog(Context ctx, String meg, boolean isLongCheck) {
         long checkTime = System.currentTimeMillis() - UXUtils.lastClickTime;
-        showLog("isFastRequestShowProgressDialog", "checkTime: " + checkTime);
+        showLog("fastRequestShowProgressDialog", "checkTime: " + checkTime);
         long betweenTIme = isLongCheck ? DEFAULT_TIME_LONG : DEFAULT_TIME_SHOT;
         if (checkTime < betweenTIme) {
+            showLog("fastRequestShowProgressDialog", "checkTime: " + checkTime, "betweenTIme: " + betweenTIme);
             try {
                 if (null != ctx) {
                     if (pd == null) {
@@ -101,42 +102,45 @@ public final class UXUtils {
                         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         if (TextUtils.isEmpty(meg)) {
                             if (isShowDefaultUXMessage) {
-                                pd.setMessage("执行中，请稍后再试!");
+                                pd.setMessage("载入中...");
                             }
                         } else {
                             pd.setMessage(meg);
                         }
                         pd.setCancelable(false);
                         pd.setCanceledOnTouchOutside(false);
-                        pd.show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                showLog("isFastRequestShowProgressDialog", "auto close start");
-                                if (pd != null) {
-                                    showLog("isFastRequestShowProgressDialog", "do auto close");
-                                    pd.hide();
-                                }
-                                showLog("isFastRequestShowProgressDialog", "auto close end");
-                            }
-                        }, betweenTIme);
+                        showProgressDialog2AutoClose(betweenTIme);
                     } else if (pd.isShowing()) {
-                        pd.dismiss();
-                        showLog("isFastRequestShowProgressDialog", "dismiss time: " + UXUtils.lastClickTime);
+                        showProgressDialog2AutoClose(betweenTIme);
                     }
                 } else {
-                    showLog("show isFastRequestShowProgressDialog null context");
+                    showLog("show fastRequestShowProgressDialog null context");
                 }
             } catch (Exception e) {
-                showLog("show isFastRequestShowProgressDialog error");
+                showLog("show fastRequestShowProgressDialog error");
                 e.printStackTrace();
             }
             return true;
         } else {
             UXUtils.lastClickTime = System.currentTimeMillis();
-            showLog("isFastRequestShowProgressDialog", "false time: " + UXUtils.lastClickTime);
+            showLog("fastRequestShowProgressDialog", "false time: " + UXUtils.lastClickTime);
             return false;
         }
+    }
+
+    private static void showProgressDialog2AutoClose(long betweenTIme) {
+        pd.show();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showLog("fastRequestShowProgressDialog", "auto close start");
+                if (pd != null) {
+                    showLog("fastRequestShowProgressDialog", "do auto close");
+                    pd.hide();
+                }
+                showLog("fastRequestShowProgressDialog", "auto close end");
+            }
+        }, betweenTIme);
     }
 
     private static void showSingleToast(Context ctx, String msg) {
