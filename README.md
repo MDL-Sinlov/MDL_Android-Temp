@@ -13,10 +13,10 @@ Less Runtime :
 > eclipse just use every repo at version `temp-x.x.x-jarLib.jar`
 
 Project Runtime:
-- Android Studio 2.2
+- Android Studio 2.2.3
 - appcompat-v7:23.4.0
 - Gradle 2.14.1
-- com.android.tools.build:gradle:2.2.0
+- com.android.tools.build:gradle:2.2.3
 - minSdkVersion 15
 
 # Last Version Info
