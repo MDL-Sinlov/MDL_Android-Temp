@@ -147,11 +147,24 @@ public final class UXUtils {
         }
     }
 
-    public static void showProgressDialog(Activity act, UXUtilsAdapter uxUtilsAdapter){
-        showProgressDialog(act, null, uxUtilsAdapter);
+    /**
+     * this dialog must use {@link UXUtilsAdapter#unLock()} to close or in uxUtilsAdapter close
+     *
+     * @param act            {@link Activity}
+     * @param uxUtilsAdapter {@link UXUtilsAdapter}
+     */
+    public static void showProgressDialog(Activity act, UXUtilsAdapter uxUtilsAdapter) {
+        showProgressDialog(act, uxUtilsAdapter, null);
     }
 
-    public static void showProgressDialog(Activity act, String msg, UXUtilsAdapter uxUtilsAdapter){
+    /**
+     * this dialog must use {@link UXUtilsAdapter#unLock()} to close or in uxUtilsAdapter close
+     *
+     * @param act            {@link Activity}
+     * @param uxUtilsAdapter {@link UXUtilsAdapter}
+     * @param msg            {@link String}
+     */
+    public static void showProgressDialog(Activity act, UXUtilsAdapter uxUtilsAdapter, String msg) {
         try {
             if (null != act) {
                 ProgressDialog touchPD = new ProgressDialog(act);
@@ -261,4 +274,3 @@ public final class UXUtils {
     private UXUtils() {
     }
 }
-
