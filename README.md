@@ -54,6 +54,8 @@ dependencies {
 ./gradlew :app:outTAD
 ```
 
+out `*.apk` in `app/build/outApk/`
+
 # Usage
 
 
