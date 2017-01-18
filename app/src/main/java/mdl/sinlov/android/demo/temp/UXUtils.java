@@ -3,11 +3,13 @@ package mdl.sinlov.android.demo.temp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 /**
- * UX Utils for Fast request
+ * UX Utils for Fast request default time is 3000 ms, you can set custom time and isCustomTime be true
  * <pre>
  *     sinlov
  *
@@ -27,8 +29,8 @@ import android.widget.Toast;
 public final class UXUtils {
     public static boolean DEBUG = false;
     public static boolean isShowDefaultUXMessage = true;
-    public static final long DEFAULT_TIME_SHOT = 2000;
-    public static final long DEFAULT_TIME_LONG = 5000;
+    public static final long DEFAULT_TIME_SHOT = 3000;
+    private static long customTime = 5000;
     private static String TAG = "UXUtils";
     private static StringBuffer sb = new StringBuffer();
 
@@ -44,35 +46,50 @@ public final class UXUtils {
         UXUtils.isShowDefaultUXMessage = isShowDefaultUXMessage;
     }
 
+    /**
+     * default time is 5000 ms
+     *
+     * @param customTime long
+     */
+    public static void setCustomTime(long customTime) {
+        UXUtils.customTime = customTime;
+    }
+
     public static boolean fastRequest() {
         return fastRequest(false);
     }
 
-    public static boolean fastRequest(boolean isLongCheck) {
-        return fastRequest(isLongCheck, null, null);
+    public static boolean fastRequest(boolean isCustomTime) {
+        return fastRequest(isCustomTime, null, null);
     }
 
-    public static boolean fastRequest(boolean isLongCheck, Context ctx, String toastMsg) {
+    public static boolean fastRequest(Context ctx) {
+        return fastRequest(false, ctx, null);
+    }
+
+    public static boolean fastRequest(Context ctx, String toastMsg) {
+        return fastRequest(false, ctx, toastMsg);
+    }
+
+    public static boolean fastRequest(boolean isCustomTime, Context ctx, String toastMsg) {
         long checkTime = System.currentTimeMillis() - UXUtils.lastClickTime;
-        showLog("fastRequest", "checkTime: " + checkTime);
-        long betweenTIme = isLongCheck ? DEFAULT_TIME_LONG : DEFAULT_TIME_SHOT;
+        printMultiLog("fastRequest", "checkTime: " + checkTime);
+        long betweenTIme = isCustomTime ? customTime : DEFAULT_TIME_SHOT;
         if (checkTime < betweenTIme) {
             if (null != ctx) {
                 if (!TextUtils.isEmpty(toastMsg)) {
-                    if (isShowDefaultUXMessage) {
-                        showSingleToast(ctx.getApplicationContext(), toastMsg);
-                    }
+                    showSingleToast(ctx.getApplicationContext(), toastMsg);
                 } else {
                     if (isShowDefaultUXMessage) {
-                        showSingleToast(ctx.getApplicationContext(), "执行中，请稍后再试!");
+                        showSingleToast(ctx.getApplicationContext(), R.string.toast_fast_request);
                     }
                 }
             }
-            showLog("fastRequest", "true time: " + UXUtils.lastClickTime, "between" + checkTime);
+            printMultiLog("fastRequest", "true time: " + UXUtils.lastClickTime, "between: " + checkTime);
             return true;
         } else {
             UXUtils.lastClickTime = System.currentTimeMillis();
-            showLog("fastRequest", "false time: " + UXUtils.lastClickTime);
+            printMultiLog("fastRequest", "false time: " + UXUtils.lastClickTime);
             return false;
         }
     }
@@ -85,27 +102,27 @@ public final class UXUtils {
         return fastRequestShowProgressDialog(ctx, msg, false);
     }
 
-    public static boolean fastRequestShowProgressDialog(Context ctx, boolean isLongCheck) {
-        return fastRequestShowProgressDialog(ctx, null, isLongCheck);
+    public static boolean fastRequestShowProgressDialog(Context ctx, boolean isCustomTime) {
+        return fastRequestShowProgressDialog(ctx, null, isCustomTime);
     }
 
-    public static boolean fastRequestShowProgressDialog(Context ctx, String meg, boolean isLongCheck) {
+    public static boolean fastRequestShowProgressDialog(Context ctx, String msg, boolean isCustomTime) {
         long checkTime = System.currentTimeMillis() - UXUtils.lastClickTime;
-        showLog("fastRequestShowProgressDialog", "checkTime: " + checkTime);
-        long betweenTIme = isLongCheck ? DEFAULT_TIME_LONG : DEFAULT_TIME_SHOT;
+        printMultiLog("fastRequestShowProgressDialog", "checkTime: " + checkTime);
+        long betweenTIme = isCustomTime ? customTime : DEFAULT_TIME_SHOT;
         if (checkTime < betweenTIme) {
-            showLog("fastRequestShowProgressDialog", "checkTime: " + checkTime, "betweenTIme: " + betweenTIme);
+            printMultiLog("fastRequestShowProgressDialog", "checkTime: " + checkTime, "betweenTime: " + betweenTIme);
             try {
                 if (null != ctx) {
                     if (pd == null) {
                         pd = new ProgressDialog(ctx);
                         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        if (TextUtils.isEmpty(meg)) {
+                        if (TextUtils.isEmpty(msg)) {
                             if (isShowDefaultUXMessage) {
-                                pd.setMessage("载入中...");
+                                pd.setMessage(ctx.getString(R.string.dialog_fast_request));
                             }
                         } else {
-                            pd.setMessage(meg);
+                            pd.setMessage(msg);
                         }
                         pd.setCancelable(false);
                         pd.setCanceledOnTouchOutside(false);
@@ -114,16 +131,16 @@ public final class UXUtils {
                         showProgressDialog2AutoClose(betweenTIme);
                     }
                 } else {
-                    showLog("show fastRequestShowProgressDialog null context");
+                    printMultiLog("show fastRequestShowProgressDialog null context");
                 }
             } catch (Exception e) {
-                showLog("show fastRequestShowProgressDialog error");
+                printMultiLog("show fastRequestShowProgressDialog error");
                 e.printStackTrace();
             }
             return true;
         } else {
             UXUtils.lastClickTime = System.currentTimeMillis();
-            showLog("fastRequestShowProgressDialog", "false time: " + UXUtils.lastClickTime);
+            printMultiLog("fastRequestShowProgressDialog", "false time: " + UXUtils.lastClickTime);
             return false;
         }
     }
@@ -133,25 +150,31 @@ public final class UXUtils {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                showLog("fastRequestShowProgressDialog", "auto close start");
+                printMultiLog("fastRequestShowProgressDialog", "auto close start");
                 if (pd != null) {
-                    showLog("fastRequestShowProgressDialog", "do auto close");
+                    printMultiLog("fastRequestShowProgressDialog", "do auto close");
                     pd.hide();
                 }
-                showLog("fastRequestShowProgressDialog", "auto close end");
+                printMultiLog("fastRequestShowProgressDialog", "auto close end");
             }
         }, betweenTIme);
     }
 
-    private static void showSingleToast(Context ctx, String msg) {
+    public static void showSingleToast(Context ctx, @StringRes int msgID) {
+        showSingleToast(ctx, msgID, 0);
+    }
+
+    public static void showSingleToast(Context ctx, @StringRes int msgID, int duration) {
+        String msg = ctx.getString(msgID);
+        int showDuration = duration <= Toast.LENGTH_SHORT ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
         if (null == toast) {
-            toast = Toast.makeText(ctx.getApplicationContext(), msg, Toast.LENGTH_LONG);
+            toast = Toast.makeText(ctx.getApplicationContext(), msgID, showDuration);
             toast.show();
             oneTime = System.currentTimeMillis();
         } else {
             twoTime = System.currentTimeMillis();
             if (msg.equals(oldMsg)) {
-                if (twoTime - oneTime > 5000) {
+                if (twoTime - oneTime > showDuration) {
                     toast.show();
                 }
             } else {
@@ -163,7 +186,32 @@ public final class UXUtils {
         oneTime = twoTime;
     }
 
-    private static void showLog(String... msg) {
+    public static void showSingleToast(Context ctx, String msg) {
+        showSingleToast(ctx, msg, 0);
+    }
+
+    public static void showSingleToast(Context ctx, String msg, int duration) {
+        int showDuration = duration <= Toast.LENGTH_SHORT ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+        if (null == toast) {
+            toast = Toast.makeText(ctx.getApplicationContext(), msg, showDuration);
+            toast.show();
+            oneTime = System.currentTimeMillis();
+        } else {
+            twoTime = System.currentTimeMillis();
+            if (msg.equals(oldMsg)) {
+                if (twoTime - oneTime > showDuration) {
+                    toast.show();
+                }
+            } else {
+                oldMsg = msg;
+                toast.setText(msg);
+                toast.show();
+            }
+        }
+        oneTime = twoTime;
+    }
+
+    public static void printMultiLog(String... msg) {
         if (msg != null && DEBUG) {
             sb.setLength(0);
             if (msg.length > 0) {
@@ -172,7 +220,7 @@ public final class UXUtils {
                     sb.append(" ");
                 }
             } else {
-                sb.append("empty showLog please check");
+                sb.append("empty printMultiLog please check");
             }
             android.util.Log.d(TAG, sb.toString());
         }
