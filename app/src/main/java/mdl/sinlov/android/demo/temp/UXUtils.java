@@ -1,11 +1,13 @@
 package mdl.sinlov.android.demo.temp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -145,6 +147,36 @@ public final class UXUtils {
         }
     }
 
+    public static void showProgressDialog(Activity act, UXUtilsAdapter uxUtilsAdapter){
+        showProgressDialog(act, null, uxUtilsAdapter);
+    }
+
+    public static void showProgressDialog(Activity act, String msg, UXUtilsAdapter uxUtilsAdapter){
+        try {
+            if (null != act) {
+                ProgressDialog touchPD = new ProgressDialog(act);
+                touchPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                if (TextUtils.isEmpty(msg)) {
+                    if (isShowDefaultUXMessage) {
+                        touchPD.setMessage(act.getString(R.string.dialog_fast_request));
+                    }
+                } else {
+                    touchPD.setMessage(msg);
+                }
+                touchPD.setCancelable(false);
+                touchPD.setCanceledOnTouchOutside(false);
+                touchPD.show();
+                uxUtilsAdapter.lock();
+                uxUtilsAdapter.setPd(touchPD);
+                uxUtilsAdapter.doProgressDialog(touchPD);
+            } else {
+                throw new NullPointerException("show showProgressDialog null Activity");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "You are use in error showProgressDialog, it can be OOM! please fix!", e);
+        }
+    }
+
     private static void showProgressDialog2AutoClose(long betweenTIme) {
         pd.show();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -229,3 +261,4 @@ public final class UXUtils {
     private UXUtils() {
     }
 }
+
