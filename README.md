@@ -6,7 +6,7 @@ Android ALog provides :
 - ~~Full method count 00~~
 
 Less Runtime :
-- minSdkVersion 4
+- minSdkVersion 15
 - gradle or maven
 - jar [You can Download just like this Path]((https://github.com/MDL-Sinlov/MDL-Android-Repo/raw/master/mvn-repo/mdl/sinlov/android/))
 
