@@ -46,6 +46,14 @@ dependencies {
 }
 ```
 
+# Build APK for test
+
+- Do not annotation // OutBuildApk_2.0 in `app/build.gradle` then run
+
+```
+./gradlew :app:outTAD
+```
+
 # Usage
 
 
