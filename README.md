@@ -64,7 +64,7 @@ out `*.apk` in `app/build/outApk/`
 
 ---
 
-Copyright 2016 sinlovgm@gmail.com
+Copyright 2017 sinlovgm@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
