@@ -2,6 +2,8 @@ package mdl.sinlov.android.demo.temp;
 
 import android.os.Bundle;
 
+import mdl.sinlov.android.ux.MDLTestActivity;
+
 public class MainActivity extends MDLTestActivity {
 
     @Override

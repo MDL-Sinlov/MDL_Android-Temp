@@ -1,4 +1,4 @@
-package mdl.sinlov.android.demo.temp;
+package mdl.sinlov.android.ux;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -267,7 +267,7 @@ public final class UXUtils {
             } else {
                 sb.append("empty printMultiLog please check");
             }
-            android.util.Log.d(TAG, sb.toString());
+            Log.d(TAG, sb.toString());
         }
     }
 

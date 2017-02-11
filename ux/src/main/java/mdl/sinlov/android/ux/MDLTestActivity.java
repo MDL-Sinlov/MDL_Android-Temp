@@ -1,4 +1,4 @@
-package mdl.sinlov.android.demo.temp;
+package mdl.sinlov.android.ux;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
