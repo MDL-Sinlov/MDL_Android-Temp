@@ -1,5 +1,13 @@
 [TOC]
 
+# use Temp
+
+```
+git clone git@github.com:MDL-Sinlov/MDL_Android-Temp.git MDL_Android-XXX
+cd MDL_Android-XXX
+rm -rf .git/
+```
+
 # Android temp
 
 Android ALog provides :
