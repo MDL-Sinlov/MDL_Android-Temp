@@ -64,7 +64,15 @@ public abstract class MDLTestActivity extends AppCompatActivity {
     }
 
     protected void skip2Activity(Class<?> cls) {
-        startActivity(new Intent(MDLTestActivity.this, cls));
+        skip2Activity(cls, null);
+    }
+
+    protected void skip2Activity(Class<?> cls, Bundle bundle) {
+        Intent intent = new Intent(MDLTestActivity.this, cls);
+        if (null != bundle) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
 
     protected void testTimeUseStart() {
