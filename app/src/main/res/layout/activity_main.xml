@@ -20,6 +20,11 @@
             android:text="module init check" />
 
         <Button
+            android:id="@+id/btn_main_skip_to_module"
+            style="@style/Sinlov.Button.Menu.MW"
+            android:text="Skip to module" />
+
+        <Button
             android:id="@+id/btn_main_get_module_data"
             style="@style/Sinlov.Button.Menu.MW"
             android:text="get module data" />
