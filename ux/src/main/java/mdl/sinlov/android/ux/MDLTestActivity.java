@@ -29,11 +29,14 @@ import android.widget.Toast;
  */
 public abstract class MDLTestActivity extends AppCompatActivity {
 
+    protected String TAG;
+
     private long testTimeUse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG = TempTestActivity.class.getSimpleName().replace("Activity", "");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         processLogic(savedInstanceState);
     }
@@ -68,7 +71,7 @@ public abstract class MDLTestActivity extends AppCompatActivity {
     }
 
     protected void skip2Activity(Class<?> cls, Bundle bundle) {
-        Intent intent = new Intent(MDLTestActivity.this, cls);
+        Intent intent = new Intent(TempTestActivity.this, cls);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
@@ -81,7 +84,7 @@ public abstract class MDLTestActivity extends AppCompatActivity {
 
     protected long testTimeUseEnd() {
         long useTime = System.currentTimeMillis() - testTimeUse;
-        Log.d("MDLTestActivity", "testTimeUse: " + useTime);
+        Log.d(TAG, "testTimeUse: " + useTime);
         return useTime;
     }
 }
