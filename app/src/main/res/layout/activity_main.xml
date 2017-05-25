@@ -33,7 +33,9 @@
             android:id="@+id/tv_main_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test result will show at this" />
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Test result will show at this"
+            android:textIsSelectable="true" />
 
     </LinearLayout>
 
