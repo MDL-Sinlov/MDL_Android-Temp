@@ -36,7 +36,7 @@ public abstract class MDLTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG = TempTestActivity.class.getSimpleName().replace("Activity", "");
+        TAG = MDLTestActivity.class.getSimpleName().replace("Activity", "");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         processLogic(savedInstanceState);
     }
@@ -71,7 +71,7 @@ public abstract class MDLTestActivity extends AppCompatActivity {
     }
 
     protected void skip2Activity(Class<?> cls, Bundle bundle) {
-        Intent intent = new Intent(TempTestActivity.this, cls);
+        Intent intent = new Intent(MDLTestActivity.this, cls);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
