@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    compile project(':ux')
+    compile project(':develophelper')
 }
 
 // OutBuildApk_2.0 you can annotation this if network bad!
