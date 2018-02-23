@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion ANDROID_COMPILE_SDK_VERSION as int
-    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
+    //    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion ANDROID_MIN_SDK_VERSION as int
@@ -19,8 +19,8 @@ android {
 }
 
 dependencies {
-    // compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    // api fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
 }
 
 // uploadArchives without javadoc
